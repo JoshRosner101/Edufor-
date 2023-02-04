@@ -1,0 +1,30 @@
+<div>
+  <div>
+    <div>ID</div>
+    <input [(ngModel)]="id" type="text" placeholder="Enter your ID">
+  </div>
+  <div>
+    <div>Username</div>
+    <input [(ngModel)]="username" type="text" placeholder="Enter your username">
+  </div>
+  <div>
+    <div>Title</div>
+    <input [(ngModel)]="title" type="text" placeholder="Enter your title">
+  </div>
+  <div>
+    <div>Body</div>
+    <input [(ngModel)]="body" type="text" placeholder="Enter the body text">
+  </div>
+  <button  (click)="addThread()">Add Thread</button>
+</div>
+
+<div style="text-align:center" *ngFor="let threadItem of threadItems">
+  <h1>
+    Welcome to {{ threadItem.title }}, {{ threadItem.username }}!
+  </h1>
+  <h1>
+    The id of this thread is  {{ threadItem.id }}<br>
+    {{ threadItem.body }}
+  </h1>
+  <br>
+</div>

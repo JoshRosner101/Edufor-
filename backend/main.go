@@ -27,11 +27,15 @@ var threads = []thread{
 
 func main() {
     router := gin.Default()
-    router.GET("/threads", getThreads)
-    router.GET("/threads/:id", getThreadByID)
-    router.POST("/threads", postThreads)
 
-    router.Run("localhost:8080")
+    backend := router.Group("/backend")
+    {
+        backend.GET("/threads", getThreads)
+        backend.GET("/threads/:id", getThreadByID)
+        backend.POST("/threads", postThreads)
+    }
+
+    router.Run("0.0.0.0:8080")
 }
 
 // getThreads responds with the list of all threads as JSON.
