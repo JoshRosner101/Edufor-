@@ -16,13 +16,15 @@ type thread struct {
     Title  string  `json:"title"`
     //The main text in a post
     Body string `json:"body"`
+    //The time when the post was made
+    Time string `json:"time"`
 }
 
 // threads slice to seed record thread data.
 var threads = []thread{
-    {ID: "1", Username: "poster27", Title: "I need some help with a project", Body: "I've been working on a piece of software and could use a helping hand."},
-    {ID: "2", Username: "TheRealGogle", Title: "How do I write a database in golang?", Body: "I want to try learning golang but I don't know where to start. I could use some help"},
-    {ID: "3", Username: "someRandomName", Title: "Helpful Angular Tips", Body: "I've been working on software for a long time and I have a few helpful pointers as to how you could use angular as the main interface for your next software project."},
+    {ID: "1", Username: "poster27", Title: "I need some help with a project", Body: "I've been working on a piece of software and could use a helping hand.", Time: "2/7/2023, 1:43:27 PM"},
+    {ID: "2", Username: "TheRealGogle", Title: "How do I write a database in golang?", Body: "I want to try learning golang but I don't know where to start. I could use some help", Time: "12/27/2021, 3:57:02 PM"},
+    {ID: "3", Username: "someRandomName", Title: "Helpful Angular Tips", Body: "I've been working on software for a long time and I have a few helpful pointers as to how you could use angular as the main interface for your next software project.", Time: "8/12/2022, 1:21:11 AM"},
 }
 
 func main() {

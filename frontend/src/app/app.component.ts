@@ -2,11 +2,13 @@ import { OnInit, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { lastValueFrom } from 'rxjs'
 
+//the variable names are the same ones in the databse
 interface IThreadItem {
   id: string,
   username: string,
   title: string,
-  body: string
+  body: string,
+  time: string
 }
 
 @Component({
@@ -39,7 +41,8 @@ export class AppComponent implements OnInit {
       id: this.id,
       username: this.username,
       title: this.title,
-      body: this.body
+      body: this.body,
+      time: new Date().toLocaleString("en-US")
     }))
 
     await this.loadNewItems()
