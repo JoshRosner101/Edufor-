@@ -10,8 +10,8 @@
 - As a collaborator (answers or collaborates on posted questions or projects), I want to post solutions to questions asked by a question or forum writer.
 - As a collaborator, I want to join as a team member to projects posted on the forum.
 ## What issues we planned to address for this sprint
-- Creating a basic back-end that could store necessary data for forum posts
-- Creating the UI Prototype
+- Creating a basic back-end with a RESTful API using go that could store necessary data for forum posts
+- Creating the UI Prototype using angular
 - Setting up the connection between the front-end and back-end
 ## Which issues were successfully completed
 - For the backend, the basic backend was implemented and the id of each post, the username of the one who posted it, the title of the post, the main content of the post and the time that it was created can all be stored. This data can either be gotten all at once, or you can get the data for one specific thread based on its unique id. Currently the backend only supports a POST command for adding that information, a GET command for getting all of the threads, and a GET command for getting a thread with a certain id.
