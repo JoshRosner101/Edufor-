@@ -6,6 +6,7 @@
 - As a site visitor with the role of forum writer, I want my forum posts to stay on the website, so even if the website goes down for maintenence my questions and answers will still be there.
 - As a frequent user, I want to know when each thread was originally uploaded, so that I can know what helpful information is most up to date.
 - As a frequent user, I want to search and sort posts in order to quickly access desired ones.
+- As a frequent user, I want to be able to see the most helpful answers first on a forum post with multiple responses. 
 - As a collaborator (answers or collaborates on posted questions or projects), I want to post solutions to questions asked by a question or forum writer.
 - As a collaborator, I want to join as a team member to projects posted on the forum.
 ## What issues we planned to address
