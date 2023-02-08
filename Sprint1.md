@@ -9,12 +9,14 @@
 - As a frequent user, I want to be able to see the most helpful answers first on a forum post with multiple responses. 
 - As a collaborator (answers or collaborates on posted questions or projects), I want to post solutions to questions asked by a question or forum writer.
 - As a collaborator, I want to join as a team member to projects posted on the forum.
-## What issues we planned to address
+## What issues we planned to address for this sprint
 - Setting up the connection between the front-end and back-end
 - Creating a functional log in page (front-end, back-end)
 - Creating the UI Prototype
 - Creating a logical flow plan on each user operation?
 ## Which issues were successfully completed
-- [PLACEHOLDER]
+- For the backend, ___
+- For the frontend, ___
 ## Which issues were unsuccessful and why
-- [PLACEHOLDER]
+- For the backend, the main issue that was unsuccessful was the implementation of the database. We have been looking into multiple options for a database to implement (mysql, sqlite, mongodb) and decided that it would be better to focus on creating communication between the frontend and backend as it works now and to implement a more functional user interface before making any major backend overhauls. Implementing the database would take a major rewrite of the backend, so we thought that it would be better to stick with what's currently functional so we have something to show for this sprint instead of potentially breaking the backend while trying to add support for a database.
+- For the frontend, ___
