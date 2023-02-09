@@ -2,14 +2,20 @@ package main
 
 import (
     "net/http"
-
     "github.com/gin-gonic/gin"
+    "strconv"
+    "database/sql"
+    "fmt"
+    "log"
+    _ "github.com/mattn/go-sqlite3"
 )
 
+var db *sql.DB
+
 // thread represents data about each individual post.
-type thread struct {
+type Thread struct {
     //ID of each unique post
-    ID     string  `json:"id"`
+    ID     int64  `json:"id"`
     //Username of the one who posted it
     Username string `json:"username"`
     //Title of a post
@@ -20,34 +26,71 @@ type thread struct {
     Time string `json:"time"`
 }
 
-// threads slice to seed record thread data.
-var threads = []thread{
-    {ID: "1", Username: "poster27", Title: "I need some help with a project", Body: "I've been working on a piece of software and could use a helping hand.", Time: "2/7/2023, 1:43:27 PM"},
-    {ID: "2", Username: "TheRealGogle", Title: "How do I write a database in golang?", Body: "I want to try learning golang but I don't know where to start. I could use some help", Time: "12/27/2021, 3:57:02 PM"},
-    {ID: "3", Username: "someRandomName", Title: "Helpful Angular Tips", Body: "I've been working on software for a long time and I have a few helpful pointers as to how you could use angular as the main interface for your next software project.", Time: "8/12/2022, 1:21:11 AM"},
-}
-
 func main() {
+    connectDB()
     router := gin.Default()
 
     backend := router.Group("/backend")
     {
         backend.GET("/threads", getThreads)
         backend.GET("/threads/:id", getThreadByID)
+
+        //Currently disabled because :username conflicts with :id
+        //backend.GET("/threads/:username", getThreadsByUsername)
+
         backend.POST("/threads", postThreads)
     }
 
     router.Run("0.0.0.0:8080")
+    
 }
+
+//This function opens the database
+func connectDB() error {
+    DB, err := sql.Open("sqlite3","./threads.db")
+    if err != nil {
+        log.Fatal(err)
+    }
+    db = DB
+    return nil
+}
+
 
 // getThreads responds with the list of all threads as JSON.
 func getThreads(c *gin.Context) {
-    c.IndentedJSON(http.StatusOK, threads)
+    threads, err := allThreads()
+    if err != nil {
+        log.Fatal(err)
+    }
+    c.IndentedJSON(http.StatusCreated, threads)
+}
+
+// getThreadByID locates the thread whose ID value matches the id
+// parameter sent by the client, then returns that thread as a response.
+func getThreadByID(c *gin.Context) {
+    id, err := strconv.ParseInt(c.Param("id"),10,64)
+
+    post, err := threadByID(id)
+    if err != nil {
+        log.Fatal(err)
+    }
+    c.IndentedJSON(http.StatusCreated, post)
+}
+
+//This uses the gin router to post all threads by a certain user
+func getThreadsByUsername(c *gin.Context) {
+    username := c.Param("username")
+
+    threads, err := threadsByUsername(username)
+    if err != nil {
+        log.Fatal(err)
+    }
+    c.IndentedJSON(http.StatusCreated, threads)
 }
 
 // postThreads adds a thread from JSON received in the request body.
 func postThreads(c *gin.Context) {
-    var newThread thread
+    var newThread Thread
 
     // Call BindJSON to bind the received JSON to
     // newThread.
@@ -55,23 +98,88 @@ func postThreads(c *gin.Context) {
         return
     }
 
-    // Add the new thread to the slice.
-    threads = append(threads, newThread)
+    threadID, err := addThread(newThread)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("ID of added album: %v\n", threadID)
     c.IndentedJSON(http.StatusCreated, newThread)
 }
 
-// getThreadByID locates the thread whose ID value matches the id
-// parameter sent by the client, then returns that thread as a response.
-func getThreadByID(c *gin.Context) {
-    id := c.Param("id")
 
-    // Loop over the list of threads, looking for
-    // a thread whose ID value matches the parameter.
-    for _, a := range threads {
-        if a.ID == id {
-            c.IndentedJSON(http.StatusOK, a)
-            return
-        }
+//Functions that interact with database down here
+
+//This function adds a new thread to the database
+//Returns the id of the post (may be used)
+func addThread(post Thread) (int64, error) {
+    result, err := db.Exec("INSERT INTO thread (username, title, body, time) VALUES (?, ?, ?, ?)", post.Username, post.Title, post.Body, post.Time)
+    if err != nil {
+        return 0, fmt.Errorf("addThread: %v", err)
     }
-    c.IndentedJSON(http.StatusNotFound, gin.H{"message": "thread not found"})
+    id, err := result.LastInsertId()
+    if err != nil {
+        return 0, fmt.Errorf("addThread: %v", err)
+    }
+    return id, nil
+}
+
+//This function gets all the threads in the database
+func allThreads() ([]Thread, error) {
+    // A threads slice to hold data from returned rows.
+    var threads []Thread
+
+    rows, err := db.Query("SELECT * FROM thread")
+    if err != nil {
+        return nil, fmt.Errorf("allThreads %v", err)
+    }
+    defer rows.Close()
+    for rows.Next() {
+        var post Thread
+        if err := rows.Scan(&post.ID, &post.Username, &post.Title, &post.Body, &post.Time); err != nil {
+            return nil, fmt.Errorf("allThreads %v", err)
+        }
+        threads = append(threads, post)
+    }
+    if err := rows.Err(); err != nil {
+        return nil, fmt.Errorf("allThreads %v", err)
+    }
+    return threads, nil
+}
+
+func threadByID(id int64) (Thread, error) {
+    // A post to hold data from the returned row.
+    var post Thread
+
+    row := db.QueryRow("SELECT * FROM thread WHERE id = ?", id)
+    if err := row.Scan(&post.ID, &post.Username, &post.Title, &post.Body, &post.Time); err != nil {
+        if err == sql.ErrNoRows {
+            return post, fmt.Errorf("threadByID %d: no such thread", id)
+        }
+        return post, fmt.Errorf("threadByID %d: %v", id, err)
+    }
+    return post, nil
+}
+
+//This function gets all the threads made by a certain user (may be used for a profile page?)
+func threadsByUsername(name string) ([]Thread, error) {
+    // A threads slice to hold data from returned rows.
+    var threads []Thread
+
+    rows, err := db.Query("SELECT * FROM thread WHERE username = ?", name)
+    if err != nil {
+        return nil, fmt.Errorf("threadsByUsername %q: %v", name, err)
+    }
+    defer rows.Close()
+    // Loop through rows, using Scan to assign column data to struct fields.
+    for rows.Next() {
+        var post Thread
+        if err := rows.Scan(&post.ID, &post.Username, &post.Title, &post.Body, &post.Time); err != nil {
+            return nil, fmt.Errorf("threadsByUsername %q: %v", name, err)
+        }
+        threads = append(threads, post)
+    }
+    if err := rows.Err(); err != nil {
+        return nil, fmt.Errorf("threadsByUsername %q: %v", name, err)
+    }
+    return threads, nil
 }

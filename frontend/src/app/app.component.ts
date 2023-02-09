@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs'
 
 //the variable names are the same ones in the databse
 interface IThreadItem {
-  id: string,
+  id: number,
   username: string,
   title: string,
   body: string,
@@ -17,7 +17,6 @@ interface IThreadItem {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  public id = ''
   public username = ''
   public title = ''
   public body = ''
@@ -38,7 +37,6 @@ export class AppComponent implements OnInit {
 
   async addThread() {
     await lastValueFrom(this.httpClient.post('/backend/threads', {
-      id: this.id,
       username: this.username,
       title: this.title,
       body: this.body,
@@ -47,7 +45,6 @@ export class AppComponent implements OnInit {
 
     await this.loadNewItems()
     
-    this.id = ''
     this.username = ''
     this.title = ''
     this.body = ''
