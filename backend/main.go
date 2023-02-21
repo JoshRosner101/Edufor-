@@ -12,6 +12,20 @@ import (
 
 var db *sql.DB
 
+
+type Reply struct {
+    //ID of each unique reply
+    ReplyID     int64  `json:"replyid"`
+    //Username of the one who posted it
+    Username string `json:"username"`
+    //The main text in a post
+    Body string `json:"body"`
+    //The time when the post was made
+    Time string `json:"time"`
+    //ID of the post this reply references
+    ReplyPost     int64  `json:"replypost"`
+}
+
 // thread represents data about each individual post.
 type Thread struct {
     //ID of each unique post
@@ -24,6 +38,8 @@ type Thread struct {
     Body string `json:"body"`
     //The time when the post was made
     Time string `json:"time"`
+    //This stores all of the Replies for each thread
+    Replies []Reply `json:"replies"`
 }
 
 func main() {
@@ -70,10 +86,19 @@ func getThreads(c *gin.Context) {
 func getThreadByID(c *gin.Context) {
     id, err := strconv.ParseInt(c.Param("id"),10,64)
 
+    //This gets the main post of the thread
     post, err := threadByID(id)
     if err != nil {
         log.Fatal(err)
     }
+
+    //This gets the replies for the thread and embeds them into the thread as an array.
+    postReplies, err := replyByPostID(id)
+    if err != nil {
+        log.Fatal(err)
+    }
+    post.Replies = postReplies
+
     c.IndentedJSON(http.StatusCreated, post)
 }
 
@@ -109,7 +134,7 @@ func postThreads(c *gin.Context) {
 
 //Functions that interact with database down here
 
-//This function adds a new thread to the database
+//This function adds a new thread to the database (passes in a thread object and modifies it)
 //Returns the id of the post (may be used)
 func addThread(post Thread) (int64, error) {
     result, err := db.Exec("INSERT INTO thread (username, title, body, time) VALUES (?, ?, ?, ?)", post.Username, post.Title, post.Body, post.Time)
@@ -182,4 +207,42 @@ func threadsByUsername(name string) ([]Thread, error) {
         return nil, fmt.Errorf("threadsByUsername %q: %v", name, err)
     }
     return threads, nil
+}
+
+//These functions are for replies
+
+//This function adds a reply into the database.
+func addReply(post Reply) (int64, error) {
+    result, err := db.Exec("INSERT INTO reply (username, body, time, replypost) VALUES (?, ?, ?, ?)", post.Username, post.Body, post.Time, post.ReplyPost)
+    if err != nil {
+        return 0, fmt.Errorf("addReply: %v", err)
+    }
+    id, err := result.LastInsertId()
+    if err != nil {
+        return 0, fmt.Errorf("addReply: %v", err)
+    }
+    return id, nil
+}
+
+//This function gets all the replies in the database based on the id of the main post.
+func replyByPostID(id int64) ([]Reply, error) {
+    // A replies slice to hold data from returned rows.
+    var replies []Reply
+
+    rows, err := db.Query("SELECT * FROM reply WHERE replypost = ?", id)
+    if err != nil {
+        return nil, fmt.Errorf("replyByPostID %v", err)
+    }
+    defer rows.Close()
+    for rows.Next() {
+        var post Reply
+        if err := rows.Scan(&post.ReplyID, &post.Username, &post.Body, &post.Time, &post.ReplyPost); err != nil {
+            return nil, fmt.Errorf("replyByPostID %v", err)
+        }
+        replies = append(replies, post)
+    }
+    if err := rows.Err(); err != nil {
+        return nil, fmt.Errorf("replyByPostID %v", err)
+    }
+    return replies, nil
 }
