@@ -8,4 +8,117 @@
 ## Unit tests for backend
 - [PLACEHOLDER]
 ## Backend API Documentation
-- [PLACEHOLDER]
+- [Show threads](#1-show-threads) : `GET /backend/threads`
+- [Add threads](#2-add-threads): `POST /backend/threads`
+- [Show thread by id](#3-show-thread-by-id) : `GET /backend/threads/:id`
+
+
+## 1. Show threads
+Gets all of the threads currently stored in the database.
+
+**URL** : `/backend/threads`
+
+**Method** : `GET`
+
+### Successful Response:
+**Code** : `201 Created`
+
+**Content example** : For a database with only two threads stored, each of which having no replies.
+```json
+[
+    {
+        "id": 1,
+        "username": "poster27",
+        "title": "I need some help with a project",
+        "body": "I've been working on a piece of software and could use a helping hand.",
+        "time": "2/7/2023, 1:43:27 PM",
+        "replies": null
+    },
+    {
+        "id": 2,
+        "username": "TheRealGogle",
+        "title": "How do I write a database in golang? ",
+        "body": "I want to try learning golang but I don't know where to start. I could use some help",
+        "time": "2/8/2023, 3:14:53 AM",
+        "replies": null
+    }
+]
+```
+
+## 2. Add threads
+Adds a new thread with a unique ID number to the database.
+
+**URL** : `/backend/threads`
+
+**Method** : `POST`
+
+**Data example** :
+
+```json
+{
+    "id": 3,
+    "username": "someRandomName",
+    "title": "Helpful Angular Tips ",
+    "body": "I've been working on software for a long time and I have a few helpful pointers as to how you could use angular as the main interface for your next software project.",
+    "time": "2/9/2023, 1:37:11 PM",
+    "replies": null
+}
+```
+
+### Successful Response:
+**Code** : `201 Created`
+
+**Content example** : Creating a new thread with the id 3.
+```json
+{
+    "id": 2,
+    "username": "TheRealGogle",
+    "title": "How do I write a database in golang? ",
+    "body": "I want to try learning golang but I don't know where to start. I could use some help",
+    "time": "2/8/2023, 3:14:53 AM",
+    "replies": null
+}
+```
+
+## 3. Show thread by id
+Gets a thread based on its id.
+
+**URL** : `/backend/threads/:id`
+
+**Method**: `GET`
+
+**URL Parameters** : `id=[integer]`
+
+### Successful Response:
+**Code** : `201 Created`
+
+**Content example** : For a thread with the id 4, that has one reply
+
+```json
+{
+    "id": 4,
+    "username": "poster23",
+    "title": "Golang Problems",
+    "body": "I need help!",
+    "time": "2/9/2023, 4:03:39 PM",
+    "replies": [
+        {
+            "replyid": 1,
+            "username": "anotherNewUser",
+            "body": "I could probably help you out!",
+            "time": "2/15/2023, 11:37:28 AM",
+            "replypost": 4
+        }
+    ]
+}
+```
+### Error Response
+**Code** : `400 Bad Request`
+
+**Content example** : A thread with an id 5 that does not exist in the database.
+
+```json
+{
+    "error": "threadByID 5: no such thread"
+}
+```
