@@ -89,7 +89,9 @@ func getThreadByID(c *gin.Context) {
     //This gets the main post of the thread
     post, err := threadByID(id)
     if err != nil {
-        log.Fatal(err)
+        //log.Fatal(err)
+        c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return;
     }
 
     //This gets the replies for the thread and embeds them into the thread as an array.
@@ -127,7 +129,8 @@ func postThreads(c *gin.Context) {
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Printf("ID of added album: %v\n", threadID)
+    //The id of the new thread is printed to console; may be used for something else in the future.
+    fmt.Printf("ID of added thread: %v\n", threadID)
     c.IndentedJSON(http.StatusCreated, newThread)
 }
 
