@@ -1,0 +1,40 @@
+<div>
+    <div>
+      <div>Username</div>
+      <input [(ngModel)]="username" type="text" placeholder="Enter your username">
+    </div>
+    <div>
+      <div>Body</div>
+      <input [(ngModel)]="body" type="text" placeholder="Enter the body text">
+    </div>
+    <button  (click)="addReply()">Add Reply</button>
+  </div>
+  
+  <div style="text-align:center">
+    <h1>
+      Welcome to {{ threadItem.title }}, {{ threadItem.username }}!
+    </h1>
+    <h1>
+      The id of this thread is  {{ threadItem.id }}<br>
+      {{ threadItem.body }}
+    </h1>
+    <h1>
+      This post was made at {{ threadItem.time }}
+    </h1>
+    <br>
+  </div>
+
+  
+  <div style="text-align:center" *ngFor="let reply of threadItem.replies">
+    <h2>
+      Here's a reply by {{ reply.username }}!
+    </h2>
+    <h2>
+      The id of this reply is  {{ reply.replyid }}<br>
+      {{ reply.body }}
+    </h2>
+    <h2>
+      This reply was made at {{ reply.time }}
+    </h2>
+    <br>
+  </div>

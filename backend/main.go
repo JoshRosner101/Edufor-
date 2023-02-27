@@ -55,6 +55,7 @@ func main() {
         //backend.GET("/threads/:username", getThreadsByUsername)
 
         backend.POST("/threads", postThreads)
+        backend.POST("/threads/:id", postReply)
     }
 
     router.Run("0.0.0.0:8080")
@@ -132,6 +133,25 @@ func postThreads(c *gin.Context) {
     //The id of the new thread is printed to console; may be used for something else in the future.
     fmt.Printf("ID of added thread: %v\n", threadID)
     c.IndentedJSON(http.StatusCreated, newThread)
+}
+
+// postThreads adds a thread from JSON received in the request body.
+func postReply(c *gin.Context) {
+    var newReply Reply
+
+    // Call BindJSON to bind the received JSON to
+    // newThread.
+    if err := c.BindJSON(&newReply); err != nil {
+        return
+    }
+
+    replyID, err := addReply(newReply)
+    if err != nil {
+        log.Fatal(err)
+    }
+    //The id of the new thread is printed to console; may be used for something else in the future.
+    fmt.Printf("ID of added reply: %v\n", replyID)
+    c.IndentedJSON(http.StatusCreated, newReply)
 }
 
 

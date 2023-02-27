@@ -11,6 +11,7 @@
 - [Show threads](#1-show-threads) : `GET /backend/threads`
 - [Add threads](#2-add-threads): `POST /backend/threads`
 - [Show thread by id](#3-show-thread-by-id) : `GET /backend/threads/:id`
+- [Add replies](#4-add-replies) : `POST /backend/threads/:id`
 
 
 ## 1. Show threads
@@ -56,12 +57,10 @@ Adds a new thread with a unique ID number to the database.
 
 ```json
 {
-    "id": 3,
     "username": "someRandomName",
     "title": "Helpful Angular Tips ",
     "body": "I've been working on software for a long time and I have a few helpful pointers as to how you could use angular as the main interface for your next software project.",
     "time": "2/9/2023, 1:37:11 PM",
-    "replies": null
 }
 ```
 
@@ -120,5 +119,40 @@ Gets a thread based on its id.
 ```json
 {
     "error": "threadByID 5: no such thread"
+}
+```
+
+
+## 4. Add replies
+Adds a new reply based on the id of the post.
+
+**URL** : `/backend/threads/:id`
+
+**Method**: `POST`
+
+**URL Parameters** : `id=[integer]`
+
+**Data example** :
+
+```json
+{
+    "username": "anotherRandomUser",
+    "body": "I could probably help!",
+    "time": "2/13/2023, 2:53:21 PM",
+    "replypost": 1
+}
+```
+
+### Successful Response:
+**Code** : `201 Created`
+
+**Content example** : Creating a new reply for a post with the id 1.
+```json
+{
+    "replyid": 5,
+    "username": "anotherRandomUser",
+    "body": "I could probably help!",
+    "time": "2/13/2023, 2:53:21 PM",
+    "replypost": 1
 }
 ```
