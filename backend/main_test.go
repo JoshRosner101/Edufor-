@@ -12,14 +12,15 @@ import (
 
 // set up router
 func SetUpRouter() *gin.Engine {
+	connectDB()
 	router := gin.Default()
 	return router
 }
 
 func TestGetThreads(t *testing.T) {
 	r := SetUpRouter()
-	r.GET("/threads", getThreads)
-	req, _ := http.NewRequest("GET", "backend/threads", nil)
+	r.GET("/backend/threads", getThreads)
+	req, _ := http.NewRequest("GET", "/backend/threads", nil)
 	// create response recorder
 	w := httptest.NewRecorder()
 	// perform request

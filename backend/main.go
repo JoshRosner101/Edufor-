@@ -77,7 +77,7 @@ func getThreads(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	c.IndentedJSON(http.StatusCreated, threads)
+	c.IndentedJSON(http.StatusOK, threads)
 }
 
 // getThreadByID locates the thread whose ID value matches the id
