@@ -1,8 +1,8 @@
 import { OnInit, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { lastValueFrom } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
+import {Title} from "@angular/platform-browser";
 
 interface IReplyItem {
   replyid: number,
@@ -37,8 +37,11 @@ export class ByIDComponent implements OnInit{
 
   constructor(
     private httpClient: HttpClient,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Thread #"+ this.route.snapshot.paramMap.get('id'));
+  }
 
   async ngOnInit() {
     await this.loadNewItems()
