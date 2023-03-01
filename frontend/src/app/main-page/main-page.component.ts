@@ -48,6 +48,5 @@ export class MainPageComponent implements OnInit {
     this.username = ''
     this.title = ''
     this.body = ''
-    
   }
 }
