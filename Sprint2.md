@@ -22,7 +22,7 @@ Gets all of the threads currently stored in the database.
 **Method** : `GET`
 
 ### Successful Response:
-**Code** : `201 Created`
+**Code** : `200 OK`
 
 **Content example** : For a database with only two threads stored, each of which having no replies.
 ```json
@@ -89,7 +89,7 @@ Gets a thread based on its id.
 **URL Parameters** : `id=[integer]`
 
 ### Successful Response:
-**Code** : `201 Created`
+**Code** : `200 OK`
 
 **Content example** : For a thread with the id 4, that has one reply
 
