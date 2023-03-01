@@ -100,7 +100,7 @@ func getThreadByID(c *gin.Context) {
 	}
 	post.Replies = postReplies
 
-	c.IndentedJSON(http.StatusCreated, post)
+	c.IndentedJSON(http.StatusOK, post)
 }
 
 // This uses the gin router to post all threads by a certain user
