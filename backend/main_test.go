@@ -38,8 +38,8 @@ func TestGetThreads(t *testing.T) {
 /*
 func TestGetThreadsByID(t *testing.T) {
 	r := SetUpRouter()
-	r.GET("/backend/threads/54", getThreadByID)
-	req, _ := http.NewRequest("GET", "/backend/threads/54", nil)
+	r.GET("/backend/threads/63", getThreadByID)
+	req, _ := http.NewRequest("GET", "/backend/threads/63", nil)
 	// create response recorder
 	w := httptest.NewRecorder()
 	// perform request
@@ -54,11 +54,10 @@ func TestGetThreadsByID(t *testing.T) {
 */
 
 // clearing database
-/*
 func TestClearDB(t *testing.T) {
 	db.Exec("DELETE FROM thread")
 }
-*/
+
 func TestPostThreads(t *testing.T) {
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
@@ -81,27 +80,26 @@ func TestPostThreads(t *testing.T) {
 
 func TestPostReply(t *testing.T) {
 	r := SetUpRouter()
-	r.POST("/backend/threads/54", postReply)
+	r.POST("/backend/threads/63", postReply)
 	reply := Reply{
 		ReplyID:   1,
 		Username:  "poster27",
 		Body:      "I've been working on a piece of software and could use a helping hand.",
 		Time:      "2/7/2023, 1:43:27 PM",
-		ReplyPost: 54,
+		ReplyPost: 63,
 	}
 
 	jsonValue, _ := json.Marshal(reply)
-	req, _ := http.NewRequest("POST", "/backend/threads/54", bytes.NewBuffer(jsonValue))
+	req, _ := http.NewRequest("POST", "/backend/threads/63", bytes.NewBuffer(jsonValue))
 
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusCreated, w.Code)
 }
 
-/*
 func TestAllThreads(t *testing.T) {
 	thread := []Thread{{
-		ID:       54,
+		ID:       63,
 		Username: "poster27",
 		Title:    "I need some help with a project",
 		Body:     "I've been working on a piece of software and could use a helping hand.",
@@ -113,23 +111,21 @@ func TestAllThreads(t *testing.T) {
 
 	assert.Equal(t, actual, expected)
 }
-*/
-/*
+
 func TestThreadByID(t *testing.T) {
 	thread := Thread{
-		ID:       54,
+		ID:       63,
 		Username: "poster27",
 		Title:    "I need some help with a project",
 		Body:     "I've been working on a piece of software and could use a helping hand.",
 		Time:     "2/7/2023, 1:43:27 PM",
 		Replies:  nil,
 	}
-	actual, _ := threadByID(54)
+	actual, _ := threadByID(63)
 	expected := thread
 
 	assert.Equal(t, actual, expected)
 }
-*/
 
 func TestAddReply(t *testing.T) {
 	connectDB()
@@ -138,7 +134,7 @@ func TestAddReply(t *testing.T) {
 		Username:  "poster27",
 		Body:      "I've been working on a piece of software and could use a helping hand.",
 		Time:      "2/7/2023, 1:43:27 PM",
-		ReplyPost: 54,
+		ReplyPost: 63,
 	}
 	addReply(rep)
 	rows, _ := db.Query("SELECT * FROM reply WHERE replyid = 1")
