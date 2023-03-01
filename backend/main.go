@@ -79,7 +79,7 @@ func getThreads(c *gin.Context) {
     if err != nil {
         log.Fatal(err)
     }
-    c.IndentedJSON(http.StatusCreated, threads)
+    c.IndentedJSON(http.StatusOK, threads)
 }
 
 // getThreadByID locates the thread whose ID value matches the id
@@ -102,7 +102,7 @@ func getThreadByID(c *gin.Context) {
     }
     post.Replies = postReplies
 
-    c.IndentedJSON(http.StatusCreated, post)
+    c.IndentedJSON(http.StatusOK, post)
 }
 
 //This uses the gin router to post all threads by a certain user
@@ -113,7 +113,7 @@ func getThreadsByUsername(c *gin.Context) {
     if err != nil {
         log.Fatal(err)
     }
-    c.IndentedJSON(http.StatusCreated, threads)
+    c.IndentedJSON(http.StatusOK, threads)
 }
 
 // postThreads adds a thread from JSON received in the request body.

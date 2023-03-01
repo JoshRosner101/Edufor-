@@ -1,5 +1,6 @@
 import { OnInit, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { lastValueFrom } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
 

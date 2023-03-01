@@ -15,8 +15,8 @@ import { MainPageComponent } from './main-page/main-page.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],
