@@ -1,12 +1,23 @@
 # Sprint 2
 ## Work Completed
 - The rewrite of the backend to use a database has been successfully completed. The backend now uses sqlite to create a local database and store post data there instead of memory. This means that data will be saved even when the backend server is shut down and needs to be booted up again.
+- An additional table in the backend database was added to store replies, which have a many-to-one relationship with threads.
 - The backend and frontend were already integrated, but work has been done to make sure the new database works properly in junction with the front end.
-- [PLACEHOLDER]
+- For the frontend, routing was added, which means that there is now support for multiple pages on the website. A new page was added for each specific thread, so now you can click on certain threads and go to a page that only shows info for that specific thread. A basic login page was also made, but is currently not fully implemented.
 ## Unit tests and Cypress tests for frontend
-- [PLACEHOLDER]
+- The Cypress test is a basic test to make sure that the routing works (it clicks on a hyperlink and checks if the webpage title is correct
+- For the unit test, it checks the function "addThread()" on the main page to see if filling out the form and running the function adds the information to the webpage.
 ## Unit tests for backend
-- [PLACEHOLDER]
+- On the backend, tests were made for these functions:
+    - getThreads
+    - postThreads
+    - postReply
+    - allThreads
+    - threadByID
+    - addReply
+    - getThreadsByID (currently doesn't work)
+- These tests are to ensure that the GET and POST functionality of the backend works in junction with the database.
+- Currently these tests work on the actual database, but we plan in implementing a mock database to test these on for the next sprint.
 ## Backend API Documentation
 - [Show threads](#1-show-threads) : `GET /backend/threads`
 - [Add threads](#2-add-threads): `POST /backend/threads`
