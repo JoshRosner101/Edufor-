@@ -43,19 +43,21 @@ type Thread struct {
 }
 
 func main() {
-    connectDB()
+    connectDB("./threads.db")
     router := gin.Default()
 
     backend := router.Group("/backend")
     {
         backend.GET("/threads", getThreads)
-        backend.GET("/threads/:id", getThreadByID)
+        backend.POST("/threads", postThreads)
 
         //Currently disabled because :username conflicts with :id
         //backend.GET("/threads/:username", getThreadsByUsername)
 
-        backend.POST("/threads", postThreads)
+        backend.GET("/threads/:id", getThreadByID)
         backend.POST("/threads/:id", postReply)
+        //backend.PUT("/threads/:id", [put an update funciton here])
+        //backend.DELETE("/threads/:id", [put a delete function here])
     }
 
     router.Run("0.0.0.0:8080")
@@ -63,8 +65,8 @@ func main() {
 }
 
 //This function opens the database
-func connectDB() error {
-    DB, err := sql.Open("sqlite","./threads.db")
+func connectDB(pathname string) error {
+    DB, err := sql.Open("sqlite",pathname)
     if err != nil {
         log.Fatal(err)
     }
