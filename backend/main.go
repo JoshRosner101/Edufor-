@@ -20,7 +20,7 @@ const secretKey = "secret"
 type User struct {
     UserID      int64 `json:"userid"`
     Name        string `json:"name"`
-    Password    string `json:"-"`
+    Password    string `json:"password,omitempty"`
 }
 
 type Reply struct {
@@ -318,6 +318,7 @@ func register(c *gin.Context){
     if err != nil {
         log.Fatal(err)
     }
+    newUser.Password = ""
     fmt.Printf("ID of added user: %v\n", userID)
     c.IndentedJSON(http.StatusCreated, newUser)
 }
@@ -376,6 +377,7 @@ func currentUser(c *gin.Context) {
         return
     }
 
+    user.Password = ""
     c.IndentedJSON(http.StatusOK, user)
 }
 
