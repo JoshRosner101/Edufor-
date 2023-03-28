@@ -57,6 +57,7 @@ func TestGetThreadsByID(t *testing.T) {
 func TestClearDB(t *testing.T) {
 	db.Exec("DELETE FROM thread")
 	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
 }
 
 func TestPostThreads(t *testing.T) {
@@ -148,5 +149,159 @@ func TestAddReply(t *testing.T) {
 
 /*
 func TestReplyByPostID(t *testing.T) {
+}
+*/
+
+func TestRegister(t *testing.T) {
+	r := SetUpRouter()
+	r.POST("/users/register", register)
+	//Test register with new user
+	user := User{
+		UserID:      			 1,
+		Name: 			  "George",
+		Password:   "TestPassword",
+	}
+
+	jsonValue, _ := json.Marshal(user)
+	req, _ := http.NewRequest("POST", "/users/register", bytes.NewBuffer(jsonValue))
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusCreated, w.Code)
+
+	//Test register with already existing user (should be an error)
+	
+	req, _ = http.NewRequest("POST", "/users/register", bytes.NewBuffer(jsonValue))
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+func TestLogin(t *testing.T) {
+	r := SetUpRouter()
+	r.POST("/users/login", login)
+	//Login with wrong user
+	user := User{
+		UserID:      			 1,
+		Name: 			  "George2",
+		Password:   "TestPassword",
+	}
+
+	jsonValue, _ := json.Marshal(user)
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(jsonValue))
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusNotFound, w.Code)
+
+	//Login with wrong password
+
+	user = User{
+		UserID:      		 	  1,
+		Name: 			   "George",
+		Password:   "WrongPassword",
+	}
+
+	jsonValue, _ = json.Marshal(user)
+	
+	req, _ = http.NewRequest("POST", "/users/login", bytes.NewBuffer(jsonValue))
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	
+	//Login correctly
+
+	user = User{
+		UserID:      		 	  1,
+		Name: 			   "George",
+		Password:   "TestPassword",
+	}
+
+	jsonValue, _ = json.Marshal(user)
+	
+	req, _ = http.NewRequest("POST", "/users/login", bytes.NewBuffer(jsonValue))
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestUserByName(t *testing.T) {
+	user := User{
+		UserID:      1,
+		Name: "George",
+		Password:   "",
+	}
+	actual, _ := userByName("George")
+	//we don't need to compare the password in this
+	actual.Password = ""
+	expected := user
+
+	assert.Equal(t, actual, expected)
+}
+
+func TestUserByID(t *testing.T) {
+	user := User{
+		UserID:      1,
+		Name: "George",
+		Password:   "",
+	}
+	actual, _ := userByID(1)
+	//we don't need to compare the password in this
+	actual.Password = ""
+	expected := user
+
+	assert.Equal(t, actual, expected)
+}
+
+//These two tests require cookies to function, and I have been unable to find a reliable way to test cookies with the current working code without rewriting part of it
+//Instead of using the golang testing library for these functions, these will be tested with postman since it supports cookies.
+
+/*
+func TestCurrentUser(t *testing.T) {
+	r := SetUpRouter()
+	r.POST("/users/login", login)
+	r.GET("/users/user", currentUser)
+	//Test when Logged in
+	
+	user := User{
+		UserID:      			 1,
+		Name: 			  "George",
+		Password:   "TestPassword",
+	}
+
+	jsonValue, _ := json.Marshal(user)
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(jsonValue))
+
+	req, _ = http.NewRequest("GET", "/users/user", nil)
+	w := httptest.NewRecorder()
+	// perform request
+	r.ServeHTTP(w, req)
+
+	// check if response was as expected
+	assert.Equal(t, http.StatusOK, w.Code)
+
+}
+func TestLogout(t *testing.T) {
+	r := SetUpRouter()
+	r.POST("/users/logout", logout)
+	//Test log out
+	
+	//logout doesnt care about the json value
+	
+	user := User{
+		UserID:      			 1,
+		Name: 			  "George",
+		Password:   "TestPassword",
+	}
+
+	jsonValue, _ := json.Marshal(user)
+	req, _ := http.NewRequest("POST", "/users/login", bytes.NewBuffer(jsonValue))
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+	
+	//Test currentUser when logged out
 }
 */
