@@ -170,7 +170,7 @@ func deleteThreadByID(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	c.IndentedJSON(http.StatusAccepted, gin.H{"message": "success"})
+	c.IndentedJSON(http.StatusOK, gin.H{"message": "success"})
 }
 
 func putThread(c *gin.Context) {
@@ -231,7 +231,7 @@ func removeThreadByID(i int64) error {
 	if err != nil {
 		return fmt.Errorf("removeThreadByID: %v", err)
 	}
-	_, err2 := db.Exec("DELETE FROM replies WHERE replyID = ?", i)
+	_, err2 := db.Exec("DELETE FROM reply WHERE replyID = ?", i)
 	if err2 != nil {
 		return fmt.Errorf("removeThreadByID: %v", err2)
 	}
