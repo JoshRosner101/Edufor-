@@ -36,6 +36,9 @@ func TestGetThreads(t *testing.T) {
 }
 
 func TestDeleteThreadByID(t *testing.T) {
+	db.Exec("DELETE FROM thread")
+	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
 	thread := Thread{
@@ -56,6 +59,45 @@ func TestDeleteThreadByID(t *testing.T) {
 
 	r.DELETE("/backend/threads/1", deleteThreadByID)
 	req2, _ := http.NewRequest("DELETE", "/backend/threads/1", nil)
+	// perform request
+	w2 := httptest.NewRecorder()
+	r.ServeHTTP(w2, req2)
+	assert.Equal(t, http.StatusOK, w2.Code)
+}
+
+func TestPutThread(t *testing.T) {
+	db.Exec("DELETE FROM thread")
+	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
+	r := SetUpRouter()
+	r.POST("/backend/threads", postThreads)
+	thread := Thread{
+		ID:       1,
+		Username: "poster27",
+		Title:    "I need some help with a project",
+		Body:     "I've been working on a piece of software and could use a helping hand.",
+		Time:     "2/7/2023, 1:43:27 PM",
+		Replies:  nil,
+	}
+
+	jsonValue, _ := json.Marshal(thread)
+	req, _ := http.NewRequest("POST", "/backend/threads", bytes.NewBuffer(jsonValue))
+	// create response recorder
+	w := httptest.NewRecorder()
+	// perform request
+	r.ServeHTTP(w, req)
+
+	thread2 := Thread{
+		ID:       3,
+		Username: "randomUser1",
+		Title:    "Anyone want to work on a project?",
+		Body:     "I made a better ChatGPT",
+		Time:     "3/21/2023, 2:20:28 PM",
+		Replies:  nil,
+	}
+	r.PUT("/backend/threads/1", putThread)
+	jsonValue2, _ := json.Marshal(thread2)
+	req2, _ := http.NewRequest("PUT", "/backend/threads/1", bytes.NewBuffer(jsonValue2))
 	// perform request
 	w2 := httptest.NewRecorder()
 	r.ServeHTTP(w2, req2)
@@ -88,6 +130,9 @@ func TestClearDB(t *testing.T) {
 }
 
 func TestPostThreads(t *testing.T) {
+	db.Exec("DELETE FROM thread")
+	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
 	thread := Thread{
@@ -108,6 +153,9 @@ func TestPostThreads(t *testing.T) {
 }
 
 func TestPostReply(t *testing.T) {
+	db.Exec("DELETE FROM thread")
+	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads/1", postReply)
 	reply := Reply{
@@ -138,7 +186,7 @@ func TestAllThreads(t *testing.T) {
 	actual, _ := allThreads()
 	expected := thread
 
-	assert.Equal(t, actual, expected)
+	assert.Equal(t, expected, actual)
 }
 
 func TestThreadByID(t *testing.T) {
@@ -153,7 +201,7 @@ func TestThreadByID(t *testing.T) {
 	actual, _ := threadByID(1)
 	expected := thread
 
-	assert.Equal(t, actual, expected)
+	assert.Equal(t, expected, actual)
 }
 
 func TestAddReply(t *testing.T) {
@@ -178,6 +226,36 @@ func TestAddReply(t *testing.T) {
 func TestReplyByPostID(t *testing.T) {
 }
 */
+
+func TestReplaceThread(t *testing.T) {
+	db.Exec("DELETE FROM thread")
+	db.Exec("DELETE FROM reply")
+	db.Exec("DELETE FROM user")
+
+	thread := Thread{
+		ID:       1,
+		Username: "poster27",
+		Title:    "I need some help with a project",
+		Body:     "I've been working on a piece of software and could use a helping hand.",
+		Time:     "2/7/2023, 1:43:27 PM",
+		Replies:  nil,
+	}
+
+	addThread(thread)
+
+	expected := Thread{
+		ID:       1,
+		Username: "poster27",
+		Title:    "I need some help with a project",
+		Body:     "I have finished on this piece of software. Thanks for the help! (edited)",
+		Time:     "2/7/2023, 1:43:27 PM",
+		Replies:  nil,
+	}
+
+	replaceThread(1, expected)
+	actual, _ := threadByID(1)
+	assert.Equal(t, expected, actual)
+}
 
 func TestRegister(t *testing.T) {
 	r := SetUpRouter()

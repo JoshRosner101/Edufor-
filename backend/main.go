@@ -243,7 +243,7 @@ func replaceThread(i int64, post Thread) (int64, error) {
 	if err != nil {
 		return 0, fmt.Errorf("replaceThread: %v", err)
 	}
-	return i, nil
+	return post.ID, nil
 }
 
 // no handler for this
