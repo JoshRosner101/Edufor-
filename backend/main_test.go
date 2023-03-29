@@ -36,9 +36,6 @@ func TestGetThreads(t *testing.T) {
 }
 
 func TestDeleteThreadByID(t *testing.T) {
-	db.Exec("DELETE FROM thread")
-	db.Exec("DELETE FROM reply")
-	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
 	thread := Thread{
@@ -66,9 +63,6 @@ func TestDeleteThreadByID(t *testing.T) {
 }
 
 func TestPutThread(t *testing.T) {
-	db.Exec("DELETE FROM thread")
-	db.Exec("DELETE FROM reply")
-	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
 	thread := Thread{
@@ -130,9 +124,6 @@ func TestClearDB(t *testing.T) {
 }
 
 func TestPostThreads(t *testing.T) {
-	db.Exec("DELETE FROM thread")
-	db.Exec("DELETE FROM reply")
-	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads", postThreads)
 	thread := Thread{
@@ -153,9 +144,6 @@ func TestPostThreads(t *testing.T) {
 }
 
 func TestPostReply(t *testing.T) {
-	db.Exec("DELETE FROM thread")
-	db.Exec("DELETE FROM reply")
-	db.Exec("DELETE FROM user")
 	r := SetUpRouter()
 	r.POST("/backend/threads/1", postReply)
 	reply := Reply{
