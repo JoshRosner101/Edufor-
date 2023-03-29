@@ -170,6 +170,7 @@ func deleteThreadByID(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	c.IndentedJSON(http.StatusAccepted, gin.H{"message": "success"})
 }
 
 func putThread(c *gin.Context) {
@@ -187,7 +188,7 @@ func putThread(c *gin.Context) {
 		log.Fatal(err)
 	}
 	fmt.Printf("ID of added thread: %v\n", threadID)
-	c.IndentedJSON(http.StatusCreated, newThread)
+	c.IndentedJSON(http.StatusOK, newThread)
 }
 
 // postThreads adds a thread from JSON received in the request body.
