@@ -2,8 +2,9 @@
 ## Work Completed
 - A mock database was implemented on the backend for unit testing, which allows us to test our functions without clogging the main database
 - User authentication was added to the backend. The backend now supports registering users, logging in, logging out, and checking what user is logged in. This was achieved by using JSON Web Tokens and cookies to securely keep track of who is logged in, and encrypting user passwords on the backend using bcrypt. This functionality still needs to be integrated with the frontend.
+- A delete and put function were created for the backend, which means that the CRUD interface is completed. These additions were added last minute, so documentation still needs to be created for them.
 ## Unit tests and Cypress tests for frontend
-- We previously had a Cypress test to check if routing works and a unit test that checks if the "addThread()" function works properly
+- We previously had a Cypress test to check if routing works and a unit test that checks if the "addThread()" function works properly. This is still the case
 ## Unit tests for backend
 - On the backend, we previously had tests for these functions::
     - getThreads
@@ -17,6 +18,8 @@
     - login
     - userByName
     - userByID
+    - putThread
+    - deleteThreadByID
 - While unit tests were made for currentUser and logout, they require cookies, which caused the unit testing to function incorrectly. As a result of this, instead of unit tests, for the currentUser and logout functions Postman has been used for End-to-End testing, to ensure that the functions work properly with cookies.
 - All of these tests takes place on a new mock database, where IDs for each table no longer autoincrement so we can ensure the same testing results every time these tests are run.
 
