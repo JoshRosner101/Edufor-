@@ -92,7 +92,7 @@ Adds a new thread with a unique ID number to the database.
 **Content example** : Creating a new thread with the id 3.
 ```json
 {
-    "id": 2,
+    "id": 3,
     "username": "TheRealGogle",
     "title": "How do I write a database in golang? ",
     "body": "I want to try learning golang but I don't know where to start. I could use some help",
@@ -179,7 +179,102 @@ Adds a new reply based on the id of the post.
 }
 ```
 
-## 5. Register
+## 5. Delete thread
+Deletes the thread with the id that matches the input along with all of its replies
+
+**URL** : `/backend/threads/:id`
+
+**Method**: `DELETE`
+
+**URL Parameters** : `id=[integer]`
+
+### Successful Response:
+**Code** : `200 OK`
+
+**Content example** : Deleting the thread with the id 1.
+
+Initial:
+```json
+[
+    {
+        "id": 1,
+        "username": "poster23",
+        "title": "Golang Problems",
+        "body": "I need help!",
+        "time": "2/9/2023, 4:03:39 PM",
+        "replies": [
+            {
+                "replyid": 1,
+                "username": "anotherNewUser",
+                "body": "I could probably help you out!",
+                "time": "2/15/2023, 11:37:28 AM",
+                "replypost": 1
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "username": "TheRealGogle",
+        "title": "How do I write a database in golang? ",
+        "body": "I want to try learning golang but I don't know where to start. I could use some help",
+        "time": "2/8/2023, 3:14:53 AM",
+        "replies": null
+    }
+]
+```
+
+Result:
+```json
+[
+    {
+        "id": 2,
+        "username": "TheRealGogle",
+        "title": "How do I write a database in golang? ",
+        "body": "I want to try learning golang but I don't know where to start. I could use some help",
+        "time": "2/8/2023, 3:14:53 AM",
+        "replies": null
+    }
+]
+```
+
+## 6. Put thread
+Updates data in the existing thread with the id matching the input
+
+**URL** : `/backend/threads/:id`
+
+**Method**: `PUT`
+
+**URL Parameters** : `id=[integer]`
+
+### Successful Response:
+**Code** : `200 OK`
+
+**Content example** : Updating the body of the thread with id 3
+
+Initial:
+```json
+{
+    "id": 3,
+    "username": "TheRealGogle",
+    "title": "How do I write a database in golang? ",
+    "body": "I want to try learning golang but I don't know where to start. I could use some help",
+    "time": "2/8/2023, 3:14:53 AM",
+    "replies": null
+}
+```
+Result:
+```json
+{
+    "id": 3,
+    "username": "TheRealGogle",
+    "title": "How do I write a database in golang? ",
+    "body": "Thanks for all your help! I can now write databases with ease.",
+    "time": "2/8/2023, 3:14:53 AM",
+    "replies": null
+}
+```
+
+## 7. Register
 Adds a new user to the database, automatically encrypting their password in the progress.
 
 **URL** : `/backend/users/register`
@@ -217,7 +312,7 @@ Adds a new user to the database, automatically encrypting their password in the 
 }
 ```
 
-## 6. Login
+## 8. Login
 Returns a cookie with a jwt token that has the user's information upon success (if given the correct username and password). The cookie expires after 24 hours.
 
 **URL** : `/backend/users/login`
@@ -264,7 +359,7 @@ Returns a cookie with a jwt token that has the user's information upon success (
 }
 ```
 
-## 7. Current User
+## 9. Current User
 Check the jwt token to see what user is logged in
 
 **URL** : `/backend/users/user`
@@ -293,7 +388,7 @@ Check the jwt token to see what user is logged in
 }
 ```
 
-## 8. Logout
+## 10. Logout
 Makes the cookie holding user information expire instantly, effectively logging out the user.
 
 **URL** : `/backend/users/logout`
