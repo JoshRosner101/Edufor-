@@ -29,11 +29,13 @@
   - [Add threads](#2-add-threads): `POST /backend/threads`
   - [Show thread by id](#3-show-thread-by-id) : `GET /backend/threads/:id`
   - [Add replies](#4-add-replies) : `POST /backend/threads/:id`
+  - [Delete thread](#5-Delete-thread) : `DELETE /backend/threads/:id`
+  - [Update thread](#6-Update-thread) : `PUT /backend/threads/:id`
 - User Authentication
-  - [Register](#5-register) : `POST /backend/users/register`
-  - [Login](#6-login) : `POST /backend/users/login`
-  - [Current user](#7-current-user) : `GET /backend/users/user`
-  - [Logout](#8-logout) : `POST /backend/users/logout`
+  - [Register](#7-register) : `POST /backend/users/register`
+  - [Login](#8-login) : `POST /backend/users/login`
+  - [Current user](#9-current-user) : `GET /backend/users/user`
+  - [Logout](#10-logout) : `POST /backend/users/logout`
 
 
 ## 1. Show threads
@@ -237,7 +239,7 @@ Result:
 ]
 ```
 
-## 6. Put thread
+## 6. Update thread
 Updates data in the existing thread with the id matching the input
 
 **URL** : `/backend/threads/:id`
