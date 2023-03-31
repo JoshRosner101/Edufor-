@@ -63,6 +63,7 @@ export class ByIDComponent implements OnInit{
     }))
 
     await this.loadNewItems()
+    console.log(this.username)
     
     this.username = ''
     this.body = ''

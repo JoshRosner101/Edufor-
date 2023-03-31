@@ -17,6 +17,7 @@ interface IThreadItem {
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
+  
   public username = ''
   public title = ''
   public body = ''

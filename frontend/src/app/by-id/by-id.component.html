@@ -1,40 +1,44 @@
-<div>
-    <div>
-      <div>Username</div>
-      <input [(ngModel)]="username" type="text" placeholder="Enter your username">
-    </div>
-    <div>
-      <div>Body</div>
-      <input [(ngModel)]="body" type="text" placeholder="Enter the body text">
-    </div>
-    <button  (click)="addReply()">Add Reply</button>
-  </div>
-  
-  <div style="text-align:center">
-    <h1>
-      Welcome to {{ threadItem.title }}, {{ threadItem.username }}!
-    </h1>
-    <h1>
-      The id of this thread is  {{ threadItem.id }}<br>
-      {{ threadItem.body }}
-    </h1>
-    <h1>
-      This post was made at {{ threadItem.time }}
-    </h1>
-    <br>
-  </div>
+<body style="background-color: rgb(140, 140, 140);">
+<mat-card class="cards">
+  <mat-card-header>
+    <mat-card-subtitle>Posted by {{ threadItem.username }} on {{ threadItem.time }}</mat-card-subtitle>
+    <mat-card-title>{{ threadItem.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p></p>
+    <p>{{ threadItem.body }}</p>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Username</mat-label>
+        <input [(ngModel)]="username" name="username" type="text" matInput placeholder="Ex. Pizza">
+      </mat-form-field>
+    
+      <mat-form-field class="example-full-width">
+        <mat-label>Leave a reply</mat-label>
+        <textarea [(ngModel)]="body" name="body" type="text" matInput placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="addReply()">Add Reply</button>
+    </form>
+  </mat-card-actions>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+<br>
 
-  
-  <div style="text-align:center" *ngFor="let reply of threadItem.replies">
-    <h2>
-      Here's a reply by {{ reply.username }}!
-    </h2>
-    <h2>
-      The id of this reply is  {{ reply.replyid }}<br>
-      {{ reply.body }}
-    </h2>
-    <h2>
-      This reply was made at {{ reply.time }}
-    </h2>
-    <br>
-  </div>
+<div *ngFor="let reply of threadItem.replies">
+  <mat-card class="cards">
+    <mat-card-header>
+      <mat-card-subtitle><b>{{ reply.username }}</b> on {{ reply.time }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p></p>
+      <p>{{ reply.body }}</p>
+    </mat-card-content>
+  </mat-card>
+  <br>
+</div>
+</body>

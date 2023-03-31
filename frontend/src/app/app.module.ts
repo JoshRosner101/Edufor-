@@ -6,6 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ByIDComponent } from './by-id/by-id.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -17,7 +24,14 @@ import { MainPageComponent } from './main-page/main-page.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    MatInputModule,
+    MatButtonModule,
+    MatRippleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
