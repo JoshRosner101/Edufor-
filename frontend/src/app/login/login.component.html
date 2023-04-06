@@ -1,0 +1,24 @@
+<br>
+<mat-card class="bottomcard">
+    <mat-card-header>
+      <mat-card-title>Login Here</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+      <form class="example-form" [formGroup]="form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Username</mat-label>
+          <input formControlName="name" type="text" matInput placeholder="Ex. NewUser72">
+        </mat-form-field>
+      
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" type="text" matInput placeholder="Enter Password Here">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="submit()">Add Thread</button>
+      </form>
+    </mat-card-actions>
+    <mat-card-footer>
+      <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>

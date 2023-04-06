@@ -1,29 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ByIDComponent } from './by-id/by-id.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//Angular Materials
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { TaskbarComponent } from './taskbar/taskbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ByIDComponent,
-    MainPageComponent
+    MainPageComponent,
+    RegisterComponent,
+    LoginComponent,
+    TaskbarComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -32,6 +42,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatInputModule,
     MatButtonModule,
     MatRippleModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

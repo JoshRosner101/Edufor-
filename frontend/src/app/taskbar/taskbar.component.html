@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span routerLink="/home" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;">EduFor</span>
+    <span class="example-spacer"></span>
+    <span *ngIf="!authenticated" routerLink="/login" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;">Login</span>
+
+    
+    <span *ngIf="authenticated" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;" (click)="logout()">Logout</span>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span routerLink="/register" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;">Register</span>
+  </mat-toolbar>

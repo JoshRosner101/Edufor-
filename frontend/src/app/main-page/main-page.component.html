@@ -1,5 +1,5 @@
-<body style="background-color: rgb(140, 140, 140);">
 
+  <br>
   <div *ngFor="let threadItem of threadItems">
     <mat-card class="cards" routerLink="/home/{{threadItem.id}}" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false>
       <mat-card-header>
@@ -45,9 +45,8 @@
       </form>
     </mat-card-actions>
     <mat-card-footer>
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
     </mat-card-footer>
   </mat-card>
 
-
-  
+<br>
