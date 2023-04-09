@@ -5,17 +5,20 @@
     </mat-card-header>
     <mat-card-actions>
       <form class="example-form" [formGroup]="form">
+        <mat-error *ngIf="showError">{{message}}</mat-error>
         <mat-form-field class="example-full-width">
           <mat-label>Username</mat-label>
           <input formControlName="name" type="text" matInput placeholder="Ex. NewUser72">
+          <mat-error *ngIf="form.invalid">Please enter a username</mat-error>
         </mat-form-field>
       
         <mat-form-field class="example-full-width">
           <mat-label>Password</mat-label>
           <input formControlName="password" type="text" matInput placeholder="Enter Password Here">
+          <mat-error *ngIf="form.invalid">Please enter a password</mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" (click)="submit()">Add Thread</button>
+        <button mat-raised-button color="primary" (click)="submit()">Login</button>
       </form>
     </mat-card-actions>
     <mat-card-footer>

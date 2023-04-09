@@ -9,5 +9,5 @@
     
     <span *ngIf="authenticated" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;" (click)="logout()">Logout</span>
     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <span routerLink="/register" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;">Register</span>
+    <span *ngIf="!authenticated" routerLink="/register" matRipple [matRippleCentered]=false [matRippleDisabled]=false [matRippleUnbounded]=false style="cursor: pointer;">Register</span>
   </mat-toolbar>
