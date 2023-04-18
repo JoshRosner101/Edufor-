@@ -11,3 +11,13 @@ We plan on making an educational forum where users can post questions about cert
 - Alex Hu (Back-end)
 - Varun Kambham (Front-end)
 - Vedavyas Jampanaboyana (Front-end)
+
+## Requirements:
+- Backend: Golang
+- Frontend: Node.js, Angular
+
+## How to use the application:
+- First, there are dependencies that need to be installed. For angular you can run "npm install" and for golang you have to run "go get".
+- Once dependencies are installed, two seperate terminals are needed to run the backend and the frontend servers.
+- On the first terminal, navigate to Edufor/frontend/ and run "npm run start".
+- Once both of these are running, you can navigate to http://localhost:4200/ to access the website.
