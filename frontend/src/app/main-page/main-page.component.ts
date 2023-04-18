@@ -18,6 +18,8 @@ interface IThreadItem {
 })
 export class MainPageComponent implements OnInit {
   
+  authenticated = false;
+  
   public username = ''
   public title = ''
   public body = ''
@@ -30,6 +32,15 @@ export class MainPageComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadNewItems()
+    this.httpClient.get('/backend/users/user', {withCredentials: true}).subscribe(
+      (res: any) => {
+        this.authenticated = true;
+        this.username = res.name;
+      },
+      err => {
+        this.authenticated = false;
+      }
+    );
   }
 
   async loadNewItems() {

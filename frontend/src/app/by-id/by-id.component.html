@@ -3,19 +3,42 @@
   <mat-card-header>
     <mat-card-subtitle>Posted by {{ threadItem.username }} on {{ threadItem.time }}</mat-card-subtitle>
     <mat-card-title>{{ threadItem.title }}</mat-card-title>
+    <span style="flex: 1 1 auto;"></span>
+    <div *ngIf="threadItem.username == this.username">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="allowEdit()" aria-label="edit button">
+          <mat-icon>build</mat-icon>
+          <span>Edit Post</span>
+        </button>
+        <button mat-menu-item (click)="delete()" aria-label="delete button">
+          <mat-icon>delete</mat-icon>
+          <span>Delete Post</span>
+        </button>
+      </mat-menu>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <p></p>
     <p>{{ threadItem.body }}</p>
+
     <mat-divider></mat-divider>
   </mat-card-content>
-  <mat-card-actions>
+  
+  <mat-card-actions *ngIf="editPost">
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <mat-label>Username</mat-label>
-        <input [(ngModel)]="username" name="username" type="text" matInput placeholder="Ex. Pizza">
+        <mat-label>Updated Post Content</mat-label>
+        <textarea [(ngModel)]="editedText" name="editedText" type="text" matInput placeholder="Ex. It makes me feel..."></textarea>
       </mat-form-field>
-    
+      <button mat-raised-button color="primary" (click)="edit()">Update Post</button>
+    </form>
+  </mat-card-actions>
+
+  <mat-card-actions *ngIf="authenticated">
+    <form class="example-form">
       <mat-form-field class="example-full-width">
         <mat-label>Leave a reply</mat-label>
         <textarea [(ngModel)]="body" name="body" type="text" matInput placeholder="Ex. It makes me feel..."></textarea>

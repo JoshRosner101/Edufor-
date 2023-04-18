@@ -1,7 +1,7 @@
 describe('Click the hyperlink for ID #2', () => {
     beforeEach(() => {
       cy.visit('/');
-      cy.get('a:contains("The id of this thread is 2")').click()
+      cy.get('mat-card-title:contains("How do I write a database in golang?")').click()
     });
   
     it('has the correct title', () => {

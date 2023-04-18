@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { TaskbarComponent } from './taskbar/taskbar.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { TaskbarComponent } from './taskbar/taskbar.component';
     MatRippleModule,
     MatToolbarModule,
     MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

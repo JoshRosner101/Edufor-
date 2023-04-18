@@ -231,7 +231,7 @@ func removeThreadByID(i int64) error {
 	if err != nil {
 		return fmt.Errorf("removeThreadByID: %v", err)
 	}
-	_, err2 := db.Exec("DELETE FROM reply WHERE replyID = ?", i)
+	_, err2 := db.Exec("DELETE FROM reply WHERE replypost = ?", i)
 	if err2 != nil {
 		return fmt.Errorf("removeThreadByID: %v", err2)
 	}

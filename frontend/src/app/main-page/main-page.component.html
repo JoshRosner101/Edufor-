@@ -18,19 +18,12 @@
   </div>
 
   
-
-  <mat-card class="bottomcard">
+  <mat-card *ngIf="authenticated" class="bottomcard">
     <mat-card-header>
-      <mat-card-subtitle>Username is temporary
-        This form will most likely be relocated</mat-card-subtitle>
+      <mat-card-title>New Thread</mat-card-title>
     </mat-card-header>
     <mat-card-actions>
       <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Username</mat-label>
-          <input [(ngModel)]="username" name="username" type="text" matInput placeholder="Ex. Pizza">
-        </mat-form-field>
-      
         <mat-form-field class="example-full-width">
           <mat-label>Title</mat-label>
           <input [(ngModel)]="title" name="title" type="text" matInput placeholder="Ex. Pizza">
